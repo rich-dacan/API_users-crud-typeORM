@@ -6,7 +6,7 @@ Esta é a base URL para consumir a API: https://localhost:3000
 
 # Endpoints
 
-Atualmente a API possui um total de 4 Endpoints para realização de cadastro, login, listar todos os usuários e listar usuário logado (sendo o último necessário autenticação)
+Atualmente a API possui um total de 6 Endpoints para realização de cadastro, login, listar todos os usuários e listar, deletar e atualizar a senha do usuário logado (sendo esses últimos necessário autenticação).
 
 ## - #1 Cadastrar usuário
 
@@ -109,5 +109,33 @@ Este endpoint retorna o usuário logado e é necessário autenticação para ace
 	"name": "Jones",
 	"email": "jon@proton.me",
 	"password": "$2b$10$Mf4y42F1vbhYDRSYiA4Cj.r7mVlDcz.wVdR8IcPwlvMmxE.NQ0yOO"
+}
+```
+
+## - #5 Deletar usuário logado
+
+**`GET`** _/users/me
+
+Este endpoint necessita do token de autenticação e retorna um feedback pro cliente.
+
+### Response
+
+```
+{
+	"message": "User deleted with success"
+}
+```
+
+## - #5 Deletar usuário logado
+
+**`GET`** _/users/me/update_password
+
+Este endpoint necessita do token de autenticação e retorna um feedback pro cliente.
+
+### Response
+
+```
+{
+	"message": "Password updated"
 }
 ```
