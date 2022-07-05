@@ -12,10 +12,10 @@ const userLoginService = async ({ email, password }: IUserLogin) => {
   const account = users.find(user => user.email === email);
 
   if (!account) {
-    throw new Error("Wrong email/password");
+    throw new Error("Account not found");
   }
 
-  if (!bcrypt.hashSync(password, account.password)) {
+  if (!bcrypt.compareSync(password, account.password)) {
     throw new Error("Wrong email/password");
   }
 

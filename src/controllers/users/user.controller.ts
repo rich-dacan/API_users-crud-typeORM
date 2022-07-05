@@ -3,6 +3,8 @@ import userCreateService from "../../services/users/userCreate.service"
 import userListService from '../../services/users/userList.service'
 import userListOneService from '../../services/users/userListOne.service'
 import userLoginService from '../../services/users/userLogin.service'
+import userSelfDeleteService from '../../services/users/userSelfDelete.service'
+import userUpdatePasswordService from '../../services/users/userUpdatePassword.service'
 
 class UserController {
   static async create (req: Request, res: Response) {
@@ -33,7 +35,7 @@ class UserController {
     }
   }
 
-  static async userLogin (req:Request, res:Response) {
+  static async login (req:Request, res:Response) {
     try {
       const { email, password } = req.body;
 
@@ -52,15 +54,14 @@ class UserController {
     }
   }
 
-  static async userListOne (req:Request, res:Response) {
+  static async listActualUser (req:Request, res:Response) {
     try {
-      // const { authorization } = req.headers.authorization;
 
-      const listUser = await userListOneService({ 
-        authorization:req.headers.authorization
-      })
+      const email = req.userEmail;
 
-      return res.status(200).send(listUser);
+      const user = await userListOneService(email);
+
+      return res.status(200).send(user);
 
     } catch (error) {
       if (error instanceof Error) {
@@ -69,6 +70,51 @@ class UserController {
           "error": error.name,
           "message": error.message
         })
+      }
+    }
+  }
+
+  static async selfDelete (req:Request, res:Response) {
+    try {
+      
+      const email = req.userEmail;
+
+      const user = userSelfDeleteService(email);
+
+      return res.status(200).json({ message: "User deleted with success"});
+
+    } catch (error) {
+      if ( error instanceof Error ) {
+
+        return res.status(401).send({
+          error: error.name,
+          message: error.message
+        });
+      }
+    }
+  }
+
+  static async updatePassword (req:Request, res:Response) {
+    try {
+      const email = req.userEmail;
+
+      const { password } = req.body;
+
+      if (!password) {
+        throw new Error("No password informed")
+      }
+
+      const user = await userUpdatePasswordService(email, password);
+
+      return res.status(201).json({ message: "Password updated" });
+      
+    } catch (error) {
+      if (error instanceof Error) {
+        
+        return res.status(400).send({
+          "error": error.message,
+          "message": error.message
+        });
       }
     }
   }
