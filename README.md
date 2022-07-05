@@ -126,7 +126,7 @@ Este endpoint necessita do token de autenticação e retorna um feedback pro cli
 }
 ```
 
-## - #5 Deletar usuário logado
+## - #6 Alterar senha de usuário logado
 
 **`GET`** _/users/me/update_password
 
