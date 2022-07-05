@@ -9,7 +9,7 @@ import userUpdatePasswordService from '../../services/users/userUpdatePassword.s
 class UserController {
   static async create (req: Request, res: Response) {
     try {
-      const { name, email, password } = req.body
+      const { name, email, password } = req.newUser
   
       const newUser = await userCreateService({name, email, password})
   
