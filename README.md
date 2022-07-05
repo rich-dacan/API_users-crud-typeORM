@@ -2,7 +2,7 @@
 
 ## Base URL
 
-Esta é a base URL para consumir a API: https://localhost:3000
+Esta é a URL base para consumir a API: https://localhost:3000
 
 # Endpoints
 
