@@ -3,7 +3,7 @@ import { Response } from "express";
 export class AppError extends Error {
   statuscode;
 
-  constructor( statuscode: number, message: string ) {
+  constructor( statuscode: number = 400, message: string ) {
     super();
 
     this.statuscode = statuscode;
