@@ -1,4 +1,5 @@
 import { Request, Response } from 'express'
+import { AppError, handleError } from '../../errors/appError'
 import userCreateService from "../../services/users/userCreate.service"
 import userListService from '../../services/users/userList.service'
 import userListOneService from '../../services/users/userListOne.service'
@@ -11,16 +12,14 @@ class UserController {
     try {
       const { name, email, password } = req.newUser
   
-      const newUser = await userCreateService({name, email, password})
+      const newUser = await userCreateService({ name, email, password })
   
       return res.status(201).json({ name, email })
   
     } catch (error) {
-      if (error instanceof Error) {
-        return res.status(400).send({
-          error: error.name,
-          message: error.message
-        })
+      if (error instanceof AppError) {
+
+        handleError(error, res);
       }
     }
   }
@@ -31,7 +30,10 @@ class UserController {
 
       return res.status(200).send(lisUsers)
     } catch (error) {
-      
+      if (error instanceof AppError) {
+
+        handleError(error, res);
+      }
     }
   }
 
@@ -44,12 +46,9 @@ class UserController {
       return res.status(200).json({ "token": token });
 
     } catch (error) {
-      if (error instanceof Error) {
+      if (error instanceof AppError) {
 
-        return res.status(401).send({
-          "error": error.name,
-          "message": error.message
-        })
+        handleError(error, res);
       }
     }
   }
@@ -64,12 +63,9 @@ class UserController {
       return res.status(200).send(user);
 
     } catch (error) {
-      if (error instanceof Error) {
+      if (error instanceof AppError) {
 
-        return res.status(401).send({
-          "error": error.name,
-          "message": error.message
-        })
+        handleError(error, res);
       }
     }
   }
@@ -84,12 +80,9 @@ class UserController {
       return res.status(200).json({ message: "User deleted with success"});
 
     } catch (error) {
-      if ( error instanceof Error ) {
+      if (error instanceof AppError) {
 
-        return res.status(401).send({
-          error: error.name,
-          message: error.message
-        });
+        handleError(error, res);
       }
     }
   }
@@ -109,12 +102,9 @@ class UserController {
       return res.status(201).json({ message: "Password updated" });
       
     } catch (error) {
-      if (error instanceof Error) {
-        
-        return res.status(400).send({
-          "error": error.message,
-          "message": error.message
-        });
+      if (error instanceof AppError) {
+
+        handleError(error, res);
       }
     }
   }
